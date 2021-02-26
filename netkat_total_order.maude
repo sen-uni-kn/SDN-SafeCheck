@@ -1,0 +1,52 @@
+fmod FIELD is
+	protecting NAT .
+	sort Field .
+endfm
+
+fmod PREDICATE is	
+	protecting FIELD .
+	protecting NAT .
+
+	sort Predicate .
+
+	op one : -> Predicate [ctor] .
+	op zero : -> Predicate [ctor] .	
+
+	op _=_ : Field Nat -> Predicate [ctor metadata "test" prec 39] .
+endfm
+
+
+fmod POLICY is
+	protecting FIELD .
+	protecting NAT .
+	protecting PREDICATE .
+
+	sort Policy .
+
+	subsort Predicate < Policy .
+
+	op _+_ : Policy Policy -> Policy [ctor assoc comm metadata "union" prec 43] .
+	op _._ : Policy Policy -> Policy [ctor assoc metadata "sequential composition" prec 40] .
+	op _<-_ : Field Nat -> Policy [ctor metadata "modification" prec 39] .
+
+	vars F1 F2 F3 : Field .
+	vars I1 I2 I3 : Nat .
+	var A : Predicate .
+	
+	eq [BA-SEQ-IDEM] : A . A = A .
+	ceq [PA-MOD-MOD-COMM] : (F1 <- I1) . (F2 <- I2) = (F2 <- I2) . (F1 <- I1) if F1 < F2 .
+	ceq [BA-SEQ-COMM] : (F1 = I1) . (F2 = I2) = (F2 = I2) . (F1 = I1) if F1 < F2 . 
+	ceq [PA-MOD-FILTER-COMM] : (F1 <- I1) . (F2 = I2) = (F2 = I2) . (F1 <- I1) if F1 =/= F2 .
+
+	---critical pairs
+    ceq (F1 <- I1) . (F2 <- I2) . (F3 <- I3) = (F3 <- I3) . (F1 <- I1) . (F2 <- I2) if F1 < F3 /\ F3 < F2 .
+	ceq F1 <- I1 . (F2 = I2) . F3 <- I3 = F3 <- I3 . F1 <- I1 . F2 = I2 if F1 < F3 /\ F3 =/= F2 .
+	ceq F1 <- I1 . (F2 = I2) . (F3 = I3) = (F3 = I3) . F1 <- I1 . (F2 = I2) if F1 =/= F3 /\ F3 < F2 .
+	ceq (F1 = I1) . (F2 = I2) . (F3 = I3) = (F3 = I3) . (F1 = I1) . (F2 = I2) if F1 < F3 /\ F3 < F2 .
+endfm
+
+
+
+
+
+

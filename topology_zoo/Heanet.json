@@ -1,0 +1,25 @@
+{
+    "fields": [
+        {
+            "range": "[0, 25]", 
+            "type": "int", 
+            "name": "pt"
+        }, 
+        {
+            "range": "[0, 6]", 
+            "type": "int", 
+            "name": "dst"
+        }, 
+        {
+            "range": "[0, 6]", 
+            "type": "int", 
+            "name": "sw"
+        }
+    ], 
+    "in": "(sw = 0 . dst = 1)", 
+    "out": "(sw = 1 . dst = 1 . (pt = 4 + pt = 8 + pt = 6))", 
+    "unfold": 7, 
+    "max_length": 3, 
+    "policy": "((sw = 1) . ((dst = 0) . pt <- 6 + (dst = 1) . pt <- 200 + (dst = 2) . pt <- 4 + (dst = 3) . pt <- 6 + (dst = 4) . pt <- 6 + (dst = 5) . pt <- 6 + (dst = 6) . pt <- 8 + zero) + (sw = 0) . ((dst = 0) . pt <- 200 + (dst = 1) . pt <- 0 + (dst = 2) . pt <- 0 + (dst = 3) . pt <- 0 + (dst = 4) . pt <- 0 + (dst = 5) . pt <- 0 + (dst = 6) . pt <- 2 + zero) + (sw = 3) . ((dst = 0) . pt <- 1 + (dst = 1) . pt <- 7 + (dst = 2) . pt <- 11 + (dst = 3) . pt <- 200 + (dst = 4) . pt <- 12 + (dst = 5) . pt <- 16 + (dst = 6) . pt <- 20 + zero) + (sw = 2) . ((dst = 0) . pt <- 10 + (dst = 1) . pt <- 5 + (dst = 2) . pt <- 200 + (dst = 3) . pt <- 10 + (dst = 4) . pt <- 10 + (dst = 5) . pt <- 10 + (dst = 6) . pt <- 5 + zero) + (sw = 5) . ((dst = 0) . pt <- 17 + (dst = 1) . pt <- 17 + (dst = 2) . pt <- 17 + (dst = 3) . pt <- 17 + (dst = 4) . pt <- 17 + (dst = 5) . pt <- 200 + (dst = 6) . pt <- 24 + zero) + (sw = 4) . ((dst = 0) . pt <- 13 + (dst = 1) . pt <- 13 + (dst = 2) . pt <- 13 + (dst = 3) . pt <- 13 + (dst = 4) . pt <- 200 + (dst = 5) . pt <- 13 + (dst = 6) . pt <- 22 + zero) + (sw = 6) . ((dst = 0) . pt <- 3 + (dst = 1) . pt <- 9 + (dst = 2) . pt <- 9 + (dst = 3) . pt <- 21 + (dst = 4) . pt <- 23 + (dst = 5) . pt <- 25 + (dst = 6) . pt <- 200 + zero))", 
+    "topology": "(sw = 1 . ((pt = 4) . sw <- 2 . pt <- 5 + (pt = 6) . sw <- 3 . pt <- 7 + (pt = 8) . sw <- 6 . pt <- 9 + zero) + sw = 0 . ((pt = 0) . sw <- 3 . pt <- 1 + (pt = 2) . sw <- 6 . pt <- 3 + zero) + sw = 3 . ((pt = 1) . sw <- 0 . pt <- 0 + (pt = 7) . sw <- 1 . pt <- 6 + (pt = 11) . sw <- 2 . pt <- 10 + (pt = 12) . sw <- 4 . pt <- 13 + (pt = 16) . sw <- 5 . pt <- 17 + (pt = 16) . sw <- 5 . pt <- 17 + (pt = 20) . sw <- 6 . pt <- 21 + (pt = 20) . sw <- 6 . pt <- 21 + zero) + sw = 2 . ((pt = 5) . sw <- 1 . pt <- 4 + (pt = 10) . sw <- 3 . pt <- 11 + zero) + sw = 5 . ((pt = 17) . sw <- 3 . pt <- 16 + (pt = 17) . sw <- 3 . pt <- 16 + (pt = 24) . sw <- 6 . pt <- 25 + zero) + sw = 4 . ((pt = 13) . sw <- 3 . pt <- 12 + (pt = 22) . sw <- 6 . pt <- 23 + zero) + sw = 6 . ((pt = 3) . sw <- 0 . pt <- 2 + (pt = 9) . sw <- 1 . pt <- 8 + (pt = 21) . sw <- 3 . pt <- 20 + (pt = 21) . sw <- 3 . pt <- 20 + (pt = 23) . sw <- 4 . pt <- 22 + (pt = 25) . sw <- 5 . pt <- 24 + zero) + zero)"
+}

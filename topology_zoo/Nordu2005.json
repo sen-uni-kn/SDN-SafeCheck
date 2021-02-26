@@ -1,0 +1,25 @@
+{
+    "fields": [
+        {
+            "range": "[0, 19]", 
+            "type": "int", 
+            "name": "pt"
+        }, 
+        {
+            "range": "[0, 8]", 
+            "type": "int", 
+            "name": "dst"
+        }, 
+        {
+            "range": "[0, 8]", 
+            "type": "int", 
+            "name": "sw"
+        }
+    ], 
+    "in": "(sw = 0 . dst = 4)", 
+    "out": "(sw = 4 . dst = 4 . (pt = 19))", 
+    "unfold": 9, 
+    "max_length": 4, 
+    "policy": "((sw = 1) . ((dst = 0) . pt <- 1 + (dst = 1) . pt <- 200 + (dst = 2) . pt <- 4 + (dst = 3) . pt <- 6 + (dst = 4) . pt <- 6 + (dst = 5) . pt <- 8 + (dst = 6) . pt <- 10 + (dst = 7) . pt <- 12 + (dst = 8) . pt <- 14 + zero) + (sw = 0) . ((dst = 0) . pt <- 200 + (dst = 1) . pt <- 0 + (dst = 2) . pt <- 0 + (dst = 3) . pt <- 0 + (dst = 4) . pt <- 0 + (dst = 5) . pt <- 0 + (dst = 6) . pt <- 0 + (dst = 7) . pt <- 0 + (dst = 8) . pt <- 0 + zero) + (sw = 3) . ((dst = 0) . pt <- 7 + (dst = 1) . pt <- 7 + (dst = 2) . pt <- 7 + (dst = 3) . pt <- 200 + (dst = 4) . pt <- 18 + (dst = 5) . pt <- 7 + (dst = 6) . pt <- 7 + (dst = 7) . pt <- 7 + (dst = 8) . pt <- 16 + zero) + (sw = 2) . ((dst = 0) . pt <- 5 + (dst = 1) . pt <- 5 + (dst = 2) . pt <- 200 + (dst = 3) . pt <- 5 + (dst = 4) . pt <- 5 + (dst = 5) . pt <- 5 + (dst = 6) . pt <- 5 + (dst = 7) . pt <- 5 + (dst = 8) . pt <- 5 + zero) + (sw = 5) . ((dst = 0) . pt <- 9 + (dst = 1) . pt <- 9 + (dst = 2) . pt <- 9 + (dst = 3) . pt <- 9 + (dst = 4) . pt <- 9 + (dst = 5) . pt <- 200 + (dst = 6) . pt <- 9 + (dst = 7) . pt <- 9 + (dst = 8) . pt <- 9 + zero) + (sw = 4) . ((dst = 0) . pt <- 19 + (dst = 1) . pt <- 19 + (dst = 2) . pt <- 19 + (dst = 3) . pt <- 19 + (dst = 4) . pt <- 200 + (dst = 5) . pt <- 19 + (dst = 6) . pt <- 19 + (dst = 7) . pt <- 19 + (dst = 8) . pt <- 19 + zero) + (sw = 7) . ((dst = 0) . pt <- 13 + (dst = 1) . pt <- 13 + (dst = 2) . pt <- 13 + (dst = 3) . pt <- 13 + (dst = 4) . pt <- 13 + (dst = 5) . pt <- 13 + (dst = 6) . pt <- 13 + (dst = 7) . pt <- 200 + (dst = 8) . pt <- 13 + zero) + (sw = 6) . ((dst = 0) . pt <- 11 + (dst = 1) . pt <- 11 + (dst = 2) . pt <- 11 + (dst = 3) . pt <- 11 + (dst = 4) . pt <- 11 + (dst = 5) . pt <- 11 + (dst = 6) . pt <- 200 + (dst = 7) . pt <- 11 + (dst = 8) . pt <- 11 + zero) + (sw = 8) . ((dst = 0) . pt <- 15 + (dst = 1) . pt <- 15 + (dst = 2) . pt <- 15 + (dst = 3) . pt <- 17 + (dst = 4) . pt <- 17 + (dst = 5) . pt <- 15 + (dst = 6) . pt <- 15 + (dst = 7) . pt <- 15 + (dst = 8) . pt <- 200 + zero))", 
+    "topology": "(sw = 1 . ((pt = 1) . sw <- 0 . pt <- 0 + (pt = 4) . sw <- 2 . pt <- 5 + (pt = 4) . sw <- 2 . pt <- 5 + (pt = 6) . sw <- 3 . pt <- 7 + (pt = 8) . sw <- 5 . pt <- 9 + (pt = 10) . sw <- 6 . pt <- 11 + (pt = 12) . sw <- 7 . pt <- 13 + (pt = 14) . sw <- 8 . pt <- 15 + zero) + sw = 0 . ((pt = 0) . sw <- 1 . pt <- 1 + zero) + sw = 3 . ((pt = 7) . sw <- 1 . pt <- 6 + (pt = 16) . sw <- 8 . pt <- 17 + (pt = 18) . sw <- 4 . pt <- 19 + zero) + sw = 2 . ((pt = 5) . sw <- 1 . pt <- 4 + (pt = 5) . sw <- 1 . pt <- 4 + zero) + sw = 5 . ((pt = 9) . sw <- 1 . pt <- 8 + zero) + sw = 4 . ((pt = 19) . sw <- 3 . pt <- 18 + zero) + sw = 7 . ((pt = 13) . sw <- 1 . pt <- 12 + zero) + sw = 6 . ((pt = 11) . sw <- 1 . pt <- 10 + zero) + sw = 8 . ((pt = 15) . sw <- 1 . pt <- 14 + (pt = 17) . sw <- 3 . pt <- 16 + zero) + zero)"
+}

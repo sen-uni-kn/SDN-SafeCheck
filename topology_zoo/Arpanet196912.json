@@ -1,0 +1,25 @@
+{
+    "fields": [
+        {
+            "range": "[0, 7]", 
+            "type": "int", 
+            "name": "pt"
+        }, 
+        {
+            "range": "[0, 3]", 
+            "type": "int", 
+            "name": "dst"
+        }, 
+        {
+            "range": "[0, 3]", 
+            "type": "int", 
+            "name": "sw"
+        }
+    ], 
+    "in": "(sw = 1 . dst = 3)", 
+    "out": "(sw = 3 . dst = 3 . (pt = 5))", 
+    "unfold": 4, 
+    "max_length": 3, 
+    "policy": "((sw = 1) . ((dst = 0) . pt <- 1 + (dst = 1) . pt <- 200 + (dst = 2) . pt <- 6 + (dst = 3) . pt <- 1 + zero) + (sw = 0) . ((dst = 0) . pt <- 200 + (dst = 1) . pt <- 0 + (dst = 2) . pt <- 2 + (dst = 3) . pt <- 4 + zero) + (sw = 3) . ((dst = 0) . pt <- 5 + (dst = 1) . pt <- 5 + (dst = 2) . pt <- 5 + (dst = 3) . pt <- 200 + zero) + (sw = 2) . ((dst = 0) . pt <- 3 + (dst = 1) . pt <- 7 + (dst = 2) . pt <- 200 + (dst = 3) . pt <- 3 + zero))", 
+    "topology": "(sw = 1 . ((pt = 1) . sw <- 0 . pt <- 0 + (pt = 6) . sw <- 2 . pt <- 7 + zero) + sw = 0 . ((pt = 0) . sw <- 1 . pt <- 1 + (pt = 2) . sw <- 2 . pt <- 3 + (pt = 4) . sw <- 3 . pt <- 5 + zero) + sw = 3 . ((pt = 5) . sw <- 0 . pt <- 4 + zero) + sw = 2 . ((pt = 3) . sw <- 0 . pt <- 2 + (pt = 7) . sw <- 1 . pt <- 6 + zero) + zero)"
+}

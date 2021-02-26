@@ -1,0 +1,69 @@
+fmod FIELD is
+	protecting NAT .
+	sort Field .
+endfm
+
+fmod PREDICATE is	
+	protecting FIELD .
+	protecting NAT .
+
+	sort Predicate .
+
+	op one : -> Predicate [ctor] .
+	op zero : -> Predicate [ctor] .	
+
+	op _=_ : Field Nat -> Predicate [ctor metadata "test" prec 39] .
+endfm
+
+fmod POLICY is
+	protecting FIELD .
+	protecting NAT .
+	protecting PREDICATE .
+
+	sort Policy .
+
+	subsort Predicate < Policy .
+
+	
+	op _+_ : Policy Policy -> Policy [ctor assoc comm metadata "union" prec 43] .
+	op _._ : Policy Policy -> Policy [ctor assoc metadata "sequential composition" prec 40] .
+	op _<-_ : Field Nat -> Policy [ctor metadata "modification" prec 39] .
+	
+	
+	vars P Q : Policy .
+	var A : Predicate .
+	vars F1 F2 : Field .
+	vars I1 I2 : Nat .
+
+	---Boolean algebra axioms
+	eq [BA-SEQ-IDEM] : A . A = A .
+	ceq [BA-SEQ-IDEM-COMM] : (F1 = I1) . P . (F1 = I1) = (F1 = I1) . P if P ? F1 .
+
+	
+	---Packet algebra axioms
+	eq [PA-MOD-FILTER] : (F1 <- I1) . (F1 = I1) = (F1 <- I1) .
+	ceq [PA-MOD-FILTER-COM] : (F1 <- I1) . P . (F1 = I1) = (F1 <- I1) . P if P ? F1 .
+
+
+
+	op _?_ : Policy Field -> Bool .
+
+	eq [?-1] : (one) ? F1 = true .
+	eq [?-2] : (zero) ? F1 = true .
+
+	eq [?-3] : ((P . Q)) ? F1 = (P ? F1) and (Q ? F1) .
+	ceq [?-4] : ((F1 <- I1)) ? F2 = true if F1 =/= F2 .
+	eq [?-5] : (P . (F2 <- I1)) ? F1 = (P ? F1) and ((F2 <- I1) ? F1) . 
+	eq [?-6] : (((F2 <- I1) . R)) ? F1 = ((F2 <- I1) ? F1) and (R ? F1) . 
+	eq [?-7] : ((F2 = I1)) ? F1 = true .
+
+	eq [?-8] : ((F1 <- I1)) ? F1 = false .
+	eq [?-9] : ((P . (F1 <- I1))) ? F1 = false . 
+	eq [?-10] : (((F1 <- I1) . R)) ? F1 = false .
+endfm
+
+
+
+
+
+

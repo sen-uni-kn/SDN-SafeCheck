@@ -1,0 +1,78 @@
+fmod FIELD is
+	protecting NAT .
+	sort Field .
+endfm
+
+
+fmod PREDICATE is	
+	protecting FIELD .
+	protecting NAT .
+	
+	sort Predicate .
+
+	op one : -> Predicate [ctor] .
+	op zero : -> Predicate [ctor] .	
+
+	op _=_ : Field Nat -> Predicate [ctor metadata "test" prec 39] .
+endfm
+
+fmod POLICY is
+	protecting TRUTH-VALUE .
+	protecting FIELD .
+	protecting PREDICATE .
+
+	sort Policy .
+
+	subsort Predicate < Policy .
+
+
+	op _+_ : Policy Policy -> Policy [ctor assoc comm metadata "union" prec 43] .
+	op _._ : Policy Policy -> Policy [ctor assoc metadata "sequential composition" prec 40] .
+	op _<-_ : Field Nat -> Policy [ctor metadata "modification" prec 39] .
+	
+	
+	
+	vars P Q L R : Policy .
+	vars A B C : Predicate .
+	vars F1 F2 : Field .
+	vars I1 I2 I3 : Nat .
+ 
+
+
+	---Boolean algebra axioms
+	eq [BA-SEQ-IDEM] : A . A = A .
+	---ceq [BA-SEQ-IDEM-COMM] : (F1 = I1) . P . (F1 = I1) = (F1 = I1) . P if P ? F1 .
+
+	
+	---Kleene algebra axioms
+	eq [KA-ONE-SEQ] : one . P = P .
+	eq [KA-SEQ-ONE] : P . one = P .
+	eq [KA-PLUS-IDEM] : P + P = P .
+	
+	eq [KA-PLUS-ZERO] : P + zero = P .
+	
+	eq [KA-SEQ-ZERO] : L . zero = zero .
+	eq [KA-ZERO-SEQ] : zero . R = zero .
+
+
+	---Packet algebra axioms
+	ceq [PA-CONTRA] : ((F1 = I1) . (F1 = I2)) = (zero) if I1 =/= I2 .
+	ceq [PA-CONTRA-COMM] : ((F1 = I1) . P . (F1 = I2)) = (zero) if I1 =/= I2 /\ not (F1 <- I2 occursInner P) .
+
+	ceq [PA-MOD-FILTER-DIFF] : ((F1 <- I1) . (F1 = I2)) = (zero) if I1 =/= I2 .
+	ceq [PA-MOD-FILTER-DIFF-COMM] : ((F1 <- I1) . P . (F1 = I2)) = (zero) if (I1 =/= I2) /\ not (F1 <- I2 occursInner P) .
+
+
+	op _occursInner_ : [Policy] [Policy] -> [Bool] .
+	ceq [oi-1] : P occursInner Q = true if P := Q .
+	ceq [oi-1] : P occursInner Q = true if P . R := Q .
+	ceq [oi-1] : P occursInner Q = true if L . P := Q .
+	ceq [oi-1] : P occursInner Q = true if L . P . R := Q .
+	eq [oi-1] : P occursInner Q = false [owise] .
+endfm
+
+
+
+
+
+

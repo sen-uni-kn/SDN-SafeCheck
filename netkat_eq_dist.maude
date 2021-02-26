@@ -1,0 +1,62 @@
+fmod FIELD is
+	protecting NAT .
+	sort Field .
+endfm
+
+fmod PREDICATE is	
+	protecting FIELD .
+	protecting NAT .
+
+	sort Predicate .
+
+	op one : -> Predicate [ctor] .
+	op zero : -> Predicate [ctor] .	
+
+	op _=_ : Field Nat -> Predicate [ctor metadata "test" prec 39] .
+endfm
+
+
+fmod POLICY is
+	protecting FIELD .
+	protecting NAT .
+	protecting PREDICATE .
+
+	sort Policy .
+
+	subsort Predicate < Policy .
+
+	op _+_ : Policy Policy -> Policy [ctor assoc comm metadata "union" prec 43] .
+	op _._ : Policy Policy -> Policy [ctor assoc metadata "sequential composition" prec 40] .
+    op _<-_ : Field Nat -> Policy [ctor metadata "modification" prec 39] .
+
+	var A : Predicate .
+	vars P Q R : Policy .
+	vars F1 F2 : Field .
+	vars I1 I2 : Nat .
+
+	---Boolean algebra axioms
+	eq [BA-SEQ-IDEM] : A . A = A .
+
+
+	---Kleenee algebra axioms
+	eq [KA-PLUS-ZERO] : P + zero = P .
+
+	eq [KA-ZERO-SEQ] : zero . P = zero .
+	eq [KA-SEQ-ZERO] : P . zero = zero .
+
+	eq [KA-ONE-SEQ] : one . P = P .
+	eq [KA-SEQ-ONE] : P . one = P .
+
+	eq [KA-SEQ-DIST-L] : P . (Q + R) = (P . Q) + (P . R) .
+	eq [KA-SEQ-DIST-R] : (P + Q) . R = (P . R) + (Q . R) .
+
+
+	---Packet algebra axioms
+	ceq [PA-MOD-FILTER-CONTRA] : (F1 <- I1) . (F1 = I2) = zero if I1 =/= I2 .
+endfm
+
+
+
+
+
+
